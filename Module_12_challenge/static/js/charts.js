@@ -5,7 +5,7 @@ function init() {
   // Use the list of sample names to populate the select options
   d3.json("samples.json").then((data) => {
     var sampleNames = data.names;
-    //console.log("sampleNames", sampleNames)
+    console.log("sampleNames", sampleNames)
 
     sampleNames.forEach((sample) => {
       selector
@@ -65,35 +65,44 @@ function buildCharts(sample) {
     //  5. Create a variable that holds the first sample in the array.
     var sample = sampleArray[0];
     console.log("sample", sample);
+
+  })
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
     //exampleFromSpaceXJS: var MapSites = d3.json(url).then(function(data){
                   //latLong = data.map(place => console.log(place.location.latitude))});
-    var otu_ids = d3.json("samples.json").then(data)=> {
-      ids = data.map(data => console.log(data.samples.id))});
-    
-    var otu_labels = ;
-    var sample_values = ;
+    d3.json("samples.json").then((data) => {
+      console.log(data);
+    //  ids = data.map(data => console.log(data.samples.id))};
+    var otu_ids = data.samples.map(x => x.id.otu_ids);
+    var otu_labels = data.samples.map(x => x.id.otu_labels); 
+    var sample_values = data.samples.map(x => x.id.otu_labels);
+    console.log("otu_ids", otu_ids);
+    console.log("otu_labels", otu_labels);
+    console.log("sample_values", sample_values);
 
+    
     // 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order  
     //  so the otu_ids with the most bacteria are last. 
     //exampleFromPlotsPracticeEarlyModule: var sortedCities = cityGrowths.sort((a,b) => a.Increase_from_2016 - b.Increase_from_2016).reverse();
     //example: var topFiveCities = sortedCities.slice(0,5);  
 
-    var yticks = 
+    //var yticks = 
 
     // 8. Create the trace for the bar chart. 
-    var barData = [{
-      x = otu_ids,
-      y = sample_values, 
-      type = "bar"
+    //var trace1 = {
+      //x = otu_ids,
+      //y = sample_values, 
+    //  type = "bar"
       
-    }];
+    //};
+
+    var plotData = [trace1];
     // 9. Create the layout for the bar chart. 
     var barLayout = {
         title: "Top 10 Bacteria Found",
     };
     // 10. Use Plotly to plot the data with the layout. 
-    Plotly.newPlot("bar", barData, layout);
-  //});
-  }
+    Plotly.newPlot("bar", plotData, layout);
+  })
+  };
