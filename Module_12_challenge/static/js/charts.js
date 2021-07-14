@@ -64,22 +64,23 @@ function buildCharts(sample) {
     var sampleArray = samples.filter(sampleObj => sampleObj.id == sample);
     //  5. Create a variable that holds the first sample in the array.
     var sample = sampleArray[0];
-    console.log("sample", sample);
+    console.log("samples", samples);
+    console.log("sampleArray", sampleArray);
 
-  })
+ 
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
     //exampleFromSpaceXJS: var MapSites = d3.json(url).then(function(data){
                   //latLong = data.map(place => console.log(place.location.latitude))});
-    d3.json("samples.json").then((data) => {
-      console.log(data);
+    //d3.json("samples.json").then((data) => {
+     // console.log(data);
     //  ids = data.map(data => console.log(data.samples.id))};
-    var otu_ids = data.samples.map(x => x.id.otu_ids);
-    var otu_labels = data.samples.map(x => x.id.otu_labels); 
-    var sample_values = data.samples.map(x => x.id.otu_labels);
+    var otu_ids = sample.id.otu_ids;
+    //var otu_labels = data.samples.map(x => x.id.otu_labels); 
+    //var sample_values = data.samples.map(x => x.id.otu_labels);
     console.log("otu_ids", otu_ids);
-    console.log("otu_labels", otu_labels);
-    console.log("sample_values", sample_values);
-
+    //console.log("otu_labels", otu_labels);
+    //console.log("sample_values", sample_values);
+    })
     
     // 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order  
@@ -104,5 +105,4 @@ function buildCharts(sample) {
     };
     // 10. Use Plotly to plot the data with the layout. 
     Plotly.newPlot("bar", plotData, layout);
-  })
   };
