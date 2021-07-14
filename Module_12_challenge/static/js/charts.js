@@ -5,7 +5,7 @@ function init() {
   // Use the list of sample names to populate the select options
   d3.json("samples.json").then((data) => {
     var sampleNames = data.names;
-    console.log("sampleNames", sampleNames)
+    //console.log("sampleNames", sampleNames)
 
     sampleNames.forEach((sample) => {
       selector
@@ -55,32 +55,32 @@ function buildMetadata(sample) {
 }
 
 // 1. Create the buildCharts function.
-function buildCharts(sample) {
+function buildCharts(sampleid) {
   // 2. Use d3.json to load and retrieve the samples.json file 
   d3.json("samples.json").then((data) => {
     // 3. Create a variable that holds the samples array. 
     var samples = data.samples;
     // 4. Create a variable that filters the samples for the object with the desired sample number.
-    var sampleArray = samples.filter(sampleObj => sampleObj.id == sample);
+    var sampleArray = samples.filter(sampleObj => sampleObj.id == sampleid);
     //  5. Create a variable that holds the first sample in the array.
     var sample = sampleArray[0];
     console.log("samples", samples);
-    console.log("sampleArray", sampleArray);
-
+   //console.log("sampleArray", sampleArray);
+  
  
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
-    //exampleFromSpaceXJS: var MapSites = d3.json(url).then(function(data){
+    //exampleFromSpaceXJS: var MapSites = d3.json(url).then(funconction(data){
                   //latLong = data.map(place => console.log(place.location.latitude))});
     //d3.json("samples.json").then((data) => {
      // console.log(data);
     //  ids = data.map(data => console.log(data.samples.id))};
-    var otu_ids = sample.id.otu_ids;
-    //var otu_labels = data.samples.map(x => x.id.otu_labels); 
-    //var sample_values = data.samples.map(x => x.id.otu_labels);
+    var otu_ids = sample.otu_ids;
+    var otu_labels = sample.otu_labels; 
+    var sample_values = sample.sample_values;
     console.log("otu_ids", otu_ids);
     //console.log("otu_labels", otu_labels);
     //console.log("sample_values", sample_values);
-    })
+   
     
     // 7. Create the yticks for the bar chart.
     // Hint: Get the the top 10 otu_ids and map them in descending order  
@@ -88,21 +88,24 @@ function buildCharts(sample) {
     //exampleFromPlotsPracticeEarlyModule: var sortedCities = cityGrowths.sort((a,b) => a.Increase_from_2016 - b.Increase_from_2016).reverse();
     //example: var topFiveCities = sortedCities.slice(0,5);  
 
-    //var yticks = 
+    var sorted_otu_ids = otu_ids.sort((a,b) => a.otu_ids - b.otu_ids).reverse();
+    var yticks = sorted_otu_ids.slice(0,10);
+    console.log("yticks", yticks);
 
+  
     // 8. Create the trace for the bar chart. 
-    //var trace1 = {
-      //x = otu_ids,
-      //y = sample_values, 
-    //  type = "bar"
-      
-    //};
-
+    var trace1 = {
+      x : otu_ids,
+      y : sample_values, 
+      type : "hbar" 
+    };
+  
     var plotData = [trace1];
     // 9. Create the layout for the bar chart. 
     var barLayout = {
         title: "Top 10 Bacteria Found",
     };
     // 10. Use Plotly to plot the data with the layout. 
-    Plotly.newPlot("bar", plotData, layout);
+    Plotly.newPlot("bar", plotData, barLayout, yticks);
+  })
   };
