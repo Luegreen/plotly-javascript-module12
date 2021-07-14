@@ -88,24 +88,33 @@ function buildCharts(sampleid) {
     //exampleFromPlotsPracticeEarlyModule: var sortedCities = cityGrowths.sort((a,b) => a.Increase_from_2016 - b.Increase_from_2016).reverse();
     //example: var topFiveCities = sortedCities.slice(0,5);  
 
-    var sorted_otu_ids = otu_ids.sort((a,b) => a.otu_ids - b.otu_ids).reverse();
-    var yticks = sorted_otu_ids.slice(0,10);
-    console.log("yticks", yticks);
+    var sorted_otu_ids = otu_ids.sort((a,b) => a.sample_values - b.sample_values).reverse();
+    var top_ten_otus = sorted_otu_ids.slice(0,10);
+    var top_ten_otus = String(top_ten_otus);
+    console.log("sorted_otu_ids", sorted_otu_ids);
+    console.log("top_ten_otus", top_ten_otus);
 
   
     // 8. Create the trace for the bar chart. 
     var trace1 = {
-      x : otu_ids,
-      y : sample_values, 
-      type : "hbar" 
+      x : sample_values,
+      y : top_ten_otus, 
+      type : "bar",
+      orientation:'h'
     };
   
     var plotData = [trace1];
+
     // 9. Create the layout for the bar chart. 
     var barLayout = {
         title: "Top 10 Bacteria Found",
+        barmode: 'stack',
+        ylabel: "otu_labels", 
+        //xaxis: { title: "Drinks"},
+        //yaxis: { title: "OTU Id"}
+
     };
     // 10. Use Plotly to plot the data with the layout. 
-    Plotly.newPlot("bar", plotData, barLayout, yticks);
+    Plotly.newPlot("bar", plotData, barLayout);
   })
   };
