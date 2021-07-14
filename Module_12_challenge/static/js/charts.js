@@ -99,6 +99,7 @@ function buildCharts(sampleid) {
     var trace1 = {
       x : sample_values,
       y : top_ten_otus, 
+      hovertext: (otu_ids + otu_labels),
       type : "bar",
       orientation:'h'
     };
