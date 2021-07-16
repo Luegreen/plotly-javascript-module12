@@ -77,9 +77,9 @@ function buildCharts(sampleid) {
     var otu_ids = sample.otu_ids;
     var otu_labels = sample.otu_labels; 
     var sample_values = sample.sample_values;
-    console.log("otu_ids", otu_ids);
+    //console.log("otu_ids", otu_ids);
     //console.log("otu_labels", otu_labels);
-    //console.log("sample_values", sample_values);
+    console.log("sample_values", sample_values);
    
     
     // 7. Create the yticks for the bar chart.
@@ -87,35 +87,70 @@ function buildCharts(sampleid) {
     //  so the otu_ids with the most bacteria are last. 
     //exampleFromPlotsPracticeEarlyModule: var sortedCities = cityGrowths.sort((a,b) => a.Increase_from_2016 - b.Increase_from_2016).reverse();
     //example: var topFiveCities = sortedCities.slice(0,5);  
+    console.log("out_ids", otu_ids)
+    console.log("out_ids type", typeof otu_ids)
+    console.log("otu_id zero #$%^", otu_ids[0])
 
-    var sorted_otu_ids = otu_ids.sort((a,b) => a.sample_values - b.sample_values).reverse();
-    var top_ten_otus = sorted_otu_ids.slice(0,10);
-    var top_ten_otus = String(top_ten_otus);
-    console.log("sorted_otu_ids", sorted_otu_ids);
-    console.log("top_ten_otus", top_ten_otus);
-
+    //var sorted_testList_v2_rev = testList.sort((a,b) => a - b).reverse();
+    var sorted_sample_values = sample_values.sort((a,b) => a-b).reverse();
+    var sample_values_top_ten = sorted_sample_values.slice(0,10).reverse();
+    var otu_ids_top_ten = otu_ids.slice(0,10).reverse();
+    var top_ten_otus = String(otu_ids_top_ten);
+    //console.log(typeof 42);
+    //var top_ten_otus = ["1167", "384", "9829"]
+    console.log("sorted_sample_values", sorted_sample_values);
+    console.log("sorted_value_top_ten", sample_values_top_ten);
+    console.log("type top_ten_otus", typeof top_ten_otus);
   
     // 8. Create the trace for the bar chart. 
-    var trace1 = {
-      x : sample_values,
+    var trace1 = [{
+      x : sample_values_top_ten,
       y : top_ten_otus, 
-      hovertext: (otu_ids + otu_labels),
+      hovertext: (otu_labels),
       type : "bar",
-      orientation:'h'
-    };
+      orientation:'h',
+    }];
   
-    var plotData = [trace1];
 
     // 9. Create the layout for the bar chart. 
     var barLayout = {
-        title: "Top 10 Bacteria Found",
-        barmode: 'stack',
-        ylabel: "otu_labels", 
-        //xaxis: { title: "Drinks"},
-        //yaxis: { title: "OTU Id"}
+        title:{ 
+          text: "Top 10 Bacteria Found"
+        },
+        yaxis: {
+          text: top_ten_otus,
+        }
+        
 
     };
     // 10. Use Plotly to plot the data with the layout. 
-    Plotly.newPlot("bar", plotData, barLayout);
+    Plotly.newPlot("bar", trace1, barLayout);
   })
+
+  // bubble chart   
+  
+  // 1. Create a variable that filters the metadata array for the object with the desired sample number.
+
+    // Create a variable that holds the first sample in the array.
+
+    // 2. Create a variable that holds the first sample in the metadata array.
+   
+    // Create variables that hold the otu_ids, otu_labels, and sample_values.
+  
+
+    // 3. Create a variable that holds the washing frequency.
+    var washing_frequency = samples.filter(sampleObj => sampleObj.wfreq == sampleid);
+    console.log("washing_frequency", washing_frequency);
+    // Create the yticks for the bar chart.
+    
+
+    // Use Plotly to plot the bar data and layout.
+    Plotly.newPlot("bar", trace1, barLayout);
+    
+    // Use Plotly to plot the bubble data and layout.
+    Plotly.newPlot();
+   
+    
+  
   };
+
