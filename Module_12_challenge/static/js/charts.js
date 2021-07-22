@@ -188,11 +188,51 @@ function buildCharts(sampleid) {
       width: 600  
     }
 
+    //guage chart
+
+    //create variable that converts the washing frequency to a floating point number.
+    var wfreq_flt = 10 - wfreq;
+
+
+    var trace3 = [{
+      type: "indicator",
+      mode: "guage+number",
+      value: wfreq,
+      delta: { wfreq_flt},
+      title: { text: "Washing Frequency Guage"},
+      guage: {
+        axis: { range: [0, 10], tickwidth: 2, tickcolor: "darkblue"  },
+      } ,
+      bgcolor: "white",
+      borderwidth: 2,
+      bordercolor: "gray",
+      steps: [
+        {range: [0, 2], color: "red"},
+        {range: [2, 4], color: "orange"},
+        {range: [4, 6], color: "yellow"},
+        {range: [6, 8], color: "ltgreen"},
+        {range: [8, 10], color: "darkgreen"}
+
+      ]
+
+    }];
+
+    var guageLayout = {
+      title:{ 
+        text: "Gauge!"
+      },
+      height: 600,
+      width: 600  
+    }
+
     // Use Plotly to plot the bar data and layout.
     Plotly.newPlot("bar", trace1, barLayout);
     
     // Use Plotly to plot the bubble data and layout.
     Plotly.newPlot("bubble", trace2, bubbleLayout );
+
+    // Use Plotly to plot the bubble data and layout.
+    Plotly.newPlot("gauge", trace3, guageLayout );
    
   }) 
   
