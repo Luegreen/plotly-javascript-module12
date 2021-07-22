@@ -3,6 +3,9 @@ function init() {
   var selector = d3.select("#selDataset");
 
   // Use the list of sample names to populate the select options
+  //Roger: When I look at the structure of the samples.json file, It begins with names. Then I call it 'data' without assigning it. Can I do this for every data set?
+  //Roger: d3.json is using d3 as a way to load the data, only. So first load data, then...for 'data' in samples do 'this'. Correct?
+  //Roger: like in build metadata, I look for 'sample' as the variable and then say for data -> do this. 
   d3.json("samples.json").then((data) => {
     var sampleNames = data.names;
     //console.log("sampleNames", sampleNames)
@@ -22,6 +25,11 @@ function init() {
 }
 
 // Initialize the dashboard
+//Roger: where is newSample declared or maybe this is one of the cases the the logic is: for newSample, do this. But still, how does it know what newSample is?
+//Roger: when do we use forEach vs just a ->
+
+
+//Roger: why do we need init twice?
 init();
 
 function optionChanged(newSample) {
@@ -61,25 +69,23 @@ function buildCharts(sampleid) {
     // 3. Create a variable that holds the samples array. 
     var samples = data.samples;
     // 4. Create a variable that filters the samples for the object with the desired sample number.
+    //Roger: below, same question: calling sampleObj: naming arbitrary?
+    //Roger: naming variables within a function, not universal, can only be used in an function, correct?
     var sampleArray = samples.filter(sampleObj => sampleObj.id == sampleid);
     //  5. Create a variable that holds the first sample in the array.
     var sample = sampleArray[0];
-    console.log("samples", samples);
+  //console.log("samples", samples);
    //console.log("sampleArray", sampleArray);
   
  
     // 6. Create variables that hold the otu_ids, otu_labels, and sample_values.
-    //exampleFromSpaceXJS: var MapSites = d3.json(url).then(funconction(data){
-                  //latLong = data.map(place => console.log(place.location.latitude))});
-    //d3.json("samples.json").then((data) => {
-     // console.log(data);
-    //  ids = data.map(data => console.log(data.samples.id))};
+
     var otu_ids = sample.otu_ids;
     var otu_labels = sample.otu_labels; 
     var sample_values = sample.sample_values;
     //console.log("otu_ids", otu_ids);
     //console.log("otu_labels", otu_labels);
-    console.log("sample_values", sample_values);
+    //console.log("sample_values", sample_values);
    
     
     // 7. Create the yticks for the bar chart.
@@ -113,44 +119,82 @@ function buildCharts(sampleid) {
   
 
     // 9. Create the layout for the bar chart. 
+    //Roger, x axis labels should be otu_ids but are not showing. 
     var barLayout = {
         title:{ 
           text: "Top 10 Bacteria Found"
         },
         yaxis: {
-          text: top_ten_otus,
+          title:{
+            text: "Top Ten OTUs",
+            font: {
+              family: 'Courier New, monospace',
+              size: 18,
+              color: '#7f7f7f'
+            }
+          },
+          
+          //y top ten otu as labels are not showing up
+          yticks:{
+            label: top_ten_otus
+          }
         }
         
 
     };
     // 10. Use Plotly to plot the data with the layout. 
     Plotly.newPlot("bar", trace1, barLayout);
-  })
+  
 
   // bubble chart   
   
   // 1. Create a variable that filters the metadata array for the object with the desired sample number.
-
+    //var samples = data.samples;
+    //var sampleArray = samples.filter(sampleObj => sampleObj.id == sampleid);
     // Create a variable that holds the first sample in the array.
-
+    //var sample = sampleArray[0];
     // 2. Create a variable that holds the first sample in the metadata array.
-   
+    var metadata = data.metadata;
+    var wfreqArray = metadata.filter(sampleObj => sampleObj.id == sampleid);
+    var wfreqResult = wfreqArray[0];
+    console.log("wfreqResult", wfreqResult);
     // Create variables that hold the otu_ids, otu_labels, and sample_values.
-  
-
-    // 3. Create a variable that holds the washing frequency.
-    var washing_frequency = samples.filter(sampleObj => sampleObj.wfreq == sampleid);
-    console.log("washing_frequency", washing_frequency);
-    // Create the yticks for the bar chart.
     
+    // 3. Create a variable that holds the washing frequency.
+    var wfreq = wfreqResult.wfreq;
+    console.log("wfreq", wfreq);
+
+    // Create the yticks for the bar chart.
+    var trace2 = [{
+      x : otu_ids,
+      y : sample_values, 
+      text: (otu_labels),
+      mode: 'markers',
+      marker:{
+        color: sample_values,
+        size: sample_values
+      }
+      //type : "bubble",
+    }];
+
+    var bubbleLayout = {
+      title:{ 
+        text: "Bubbles!"
+      },
+      xaxis: otu_ids,
+      yaxis: sample_values,
+      showlegend: true,
+      height: 600,
+      width: 600  
+    }
 
     // Use Plotly to plot the bar data and layout.
     Plotly.newPlot("bar", trace1, barLayout);
     
     // Use Plotly to plot the bubble data and layout.
-    Plotly.newPlot();
+    Plotly.newPlot("bubble", trace2, bubbleLayout );
    
-    
+  }) 
   
-  };
+};
 
