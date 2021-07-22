@@ -171,7 +171,7 @@ function buildCharts(sampleid) {
       text: (otu_labels),
       mode: 'markers',
       marker:{
-        color: ["blue", "green", "limegreen", "green", "brown", "tan"],
+        color: ["#fefbd8","#fefbd8","#618685","#618685","#618685","#618685","36486b","36486b","36486b","36486b","4040a1", "4040a1","4040a1", "4040a1", "blue", "blue", "blue", "blue","green", "green","green", "green", "yellow", "yellow","yellow", "yellow", "orange", "orange", "orange", "orange", "red", "red", "red", "red"],
         size: sample_values
       }
       //type : "bubble",
@@ -187,6 +187,8 @@ function buildCharts(sampleid) {
       height: 600,
       width: 600  
     }
+    
+  
 
     //guage chart
 
@@ -228,6 +230,8 @@ function buildCharts(sampleid) {
       width: 600 
   
     };
+
+    
 
     // Use Plotly to plot the bar data and layout.
     Plotly.newPlot("bar", trace1, barLayout);
