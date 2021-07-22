@@ -194,18 +194,16 @@ function buildCharts(sampleid) {
     var wfreq_flt = 10 - wfreq;
 
 
+
     var trace3 = [{
-      type: "indicator",
-      mode: "guage+number",
+      domain: {x: [0, 1], y:[0, 1]},
       value: wfreq,
-      delta: { wfreq_flt},
-      title: { text: "Washing Frequency Guage"},
-      guage: {
-        axis: { range: [0, 10], tickwidth: 2, tickcolor: "darkblue"  },
-      } ,
-      bgcolor: "white",
-      borderwidth: 2,
-      bordercolor: "gray",
+      title: { text: "Washing Frequency Gauge"},
+      type: "indicator",
+      mode: "gauge+number",
+      range: [null, 10],
+    
+      
       steps: [
         {range: [0, 2], color: "red"},
         {range: [2, 4], color: "orange"},
@@ -217,13 +215,11 @@ function buildCharts(sampleid) {
 
     }];
 
-    var guageLayout = {
-      title:{ 
-        text: "Gauge!"
-      },
-      height: 600,
-      width: 600  
-    }
+    var gaugeLayout = {
+      //height: 600,
+      //width: 600 
+  
+    };
 
     // Use Plotly to plot the bar data and layout.
     Plotly.newPlot("bar", trace1, barLayout);
@@ -232,7 +228,7 @@ function buildCharts(sampleid) {
     Plotly.newPlot("bubble", trace2, bubbleLayout );
 
     // Use Plotly to plot the bubble data and layout.
-    Plotly.newPlot("gauge", trace3, guageLayout );
+    Plotly.newPlot("gauge", trace3, gaugeLayout );
    
   }) 
   
